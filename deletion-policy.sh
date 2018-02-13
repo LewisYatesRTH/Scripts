@@ -22,10 +22,16 @@ $error_files >> $log
 out_files=$(find $path -name "$OUT_FILES"  -type f -mtime +7 -print -delete)
 $out_files >> $log
 
+#if no log files are identified, set BODY to the correct output
+if [ -z "$error_files" ] && [ -z "$out_files" ];
+then
+  BODY="No files to delete as part of the deletion policy."
+else
+  BODY="The following files have been deleted:
+  $error_files + $out_files"
+fi
+
 echo "Start: $(date +%Y%m%d_%H%M)" >> $log
 echo "End: $(date +%Y%m%d_%H%M)" >> $log
-
-BODY="The following files have been deleted:
-$error_files, $out_files"
 
 echo ${BODY} | mail -s "Deletion Policy $HOST" lewis.yates@roadtohealthgroup.com
