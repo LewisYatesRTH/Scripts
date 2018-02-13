@@ -27,8 +27,13 @@ if [ -z "$error_files" ] && [ -z "$out_files" ];
 then
   BODY="No files to delete as part of the deletion policy."
 else
-  BODY="The following files have been deleted:
-  $error_files + $out_files"
+  BODY="The following files have been deleted: \
+  *.error files \
+  ============= \
+  $error_files \
+  *.out files \
+  =========== \
+  $out_files"
 fi
 
 echo "Start: $(date +%Y%m%d_%H%M)" >> $log
